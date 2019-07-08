@@ -76,35 +76,37 @@
     ]
   },
   "peerDependencies": {
-    "electron": "^5.0.3",
+    "electron": "^5.0.6",
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.0.0",
     "@commitlint/config-conventional": "^8.0.0",
     "@types/electron": "^1.6.10",
-    "@types/node": "^12.0.7",
+    "@types/node": "^12.0.12",
     "commitizen": "^3.1.1",
     "cz-conventional-changelog": "^2.1.0",
-    "electron": "^5.0.3",
-    "husky": "^2.4.0",
-    "lint-staged": "^8.2.0",
+    "electron": "^5.0.6",
+    "husky": "^3.0.0",
+    "lint-staged": "^9.1.0",
     "prettier": "^1.18.2",
     "prompt": "^1.0.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^2.6.3",
-    "semantic-release": "^15.13.12",
+    "semantic-release": "^15.13.18",
     "shelljs": "^0.8.3",
     "travis-deploy-once": "^5.0.11",
-    "ts-node": "^8.2.0",
-    "tslint": "^5.17.0",
+    "ts-node": "^8.3.0",
+    "tslint": "^5.18.0",
     "tslint-config-prettier": "^1.18.0",
     "tslint-config-standard": "^8.0.1",
     "typedoc": "^0.14.2",
-    "typescript": "^3.5.1"
+    "typescript": "^3.5.2"
   },
   "dependencies": {
+    "chai": "^4.2.0",
     "electron-log": "^3.0.6",
-    "inversify": "^5.0.1"
+    "inversify": "^5.0.1",
+    "mocha": "^6.1.4"
   }
 }
