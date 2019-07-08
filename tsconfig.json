@@ -2,7 +2,7 @@
   "compilerOptions": {
     "moduleResolution": "node",
     "target": "es5",
-    "module":"es2015",
+    "module": "commonjs",
     "lib": ["es2017"],
     "skipLibCheck": true,
     "strict": true,
@@ -12,17 +12,12 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "declarationDir": "dist/types",
-    "outDir": "dist/lib",
-    "typeRoots": [
-      "node_modules/@types"
-    ]
+    "outDir": "dist",
+    "typeRoots": ["node_modules/@types", "typings"]
   },
   "typedocOptions": {
     "mode": "modules",
     "out": "docs",
     "theme": "minimal"
-  },
-  "include": [
-    "src"
-  ]
+  }
 }

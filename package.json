@@ -18,9 +18,11 @@
     "node": ">=6.0.0"
   },
   "scripts": {
-    "lint": "tslint --project tsconfig.json -t codeFrame 'src/**/*.ts'",
+    "lint": "tslint --project tsconfig.prod.json -t codeFrame 'src/**/*.ts'",
     "prebuild": "rimraf dist",
-    "build": "tsc --module commonjs && typedoc src",
+    "build": "tsc -p tsconfig.prod.json && typedoc src",
+    "test:unit": "mocha",
+    "test:tdd": "mocha --watch",
     "start": "rollup -c rollup.config.ts -w",
     "deploy-docs": "ts-node tools/gh-pages-publish",
     "commit": "git-cz",
@@ -82,19 +84,26 @@
   "devDependencies": {
     "@commitlint/cli": "^8.0.0",
     "@commitlint/config-conventional": "^8.0.0",
+    "@types/chai": "^4.1.7",
     "@types/electron": "^1.6.10",
+    "@types/mocha": "^5.2.7",
     "@types/node": "^12.0.12",
+    "@types/sinon": "^7.0.13",
+    "chai": "^4.2.0",
     "commitizen": "^3.1.1",
     "cz-conventional-changelog": "^2.1.0",
     "electron": "^5.0.6",
+    "electron-ipc-mock": "^0.0.3",
     "husky": "^3.0.0",
     "lint-staged": "^9.1.0",
+    "mocha": "^6.1.4",
     "prettier": "^1.18.2",
     "prompt": "^1.0.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^2.6.3",
     "semantic-release": "^15.13.18",
     "shelljs": "^0.8.3",
+    "sinon": "^7.3.2",
     "travis-deploy-once": "^5.0.11",
     "ts-node": "^8.3.0",
     "tslint": "^5.18.0",
@@ -104,9 +113,6 @@
     "typescript": "^3.5.2"
   },
   "dependencies": {
-    "chai": "^4.2.0",
-    "electron-log": "^3.0.6",
-    "inversify": "^5.0.1",
-    "mocha": "^6.1.4"
+    "inversify": "^5.0.1"
   }
 }
