@@ -1,7 +1,7 @@
 {
   "name": "electron-api-ipc",
   "version": "0.0.0-development",
-  "description": "",
+  "description": "a wrapper for inversifyjs and some decorators wich make it possible to build ipc api the same way you would using nestjs",
   "keywords": [
     "electron",
     "ipc",
@@ -9,12 +9,8 @@
     "inversify",
     "ioc"
   ],
-  "main": "dist/index.js",
+  "main": "index.js",
   "typings": "types/index.d.ts",
-  "files": [
-    "dist",
-    "types"
-  ],
   "author": "Charles Jacquin <charles.jacquin@autistici.org>",
   "repository": {
     "type": "git",
@@ -28,11 +24,11 @@
     "lint": "tslint --project tsconfig.prod.json -t codeFrame 'src/**/*.ts'",
     "prebuild": "rimraf dist",
     "build": "tsc -p tsconfig.prod.json && typedoc src",
+    "postbuild": "ts-node tools/postBuild.ts",
     "test": "mocha",
     "test:ci": "nyc mocha",
     "test:tdd": "mocha --watch --reporter dot",
     "report-coverage": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
-    "start": "rollup -c rollup.config.ts -w",
     "deploy-docs": "ts-node tools/gh-pages-publish",
     "commit": "git-cz",
     "semantic-release": "semantic-release",
@@ -100,11 +96,10 @@
     "prompt": "^1.0.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^2.6.3",
-    "semantic-release": "^15.13.18",
     "shelljs": "^0.8.3",
     "sinon": "^7.3.2",
     "source-map-support": "^0.5.12",
-    "travis-deploy-once": "^5.0.11",
+    "tempy": "^0.3.0",
     "ts-node": "^8.3.0",
     "tslint": "^5.18.0",
     "tslint-config-prettier": "^1.18.0",
