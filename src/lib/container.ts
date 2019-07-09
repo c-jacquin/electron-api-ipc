@@ -46,7 +46,7 @@ export class Container extends InversifyContainer {
           if (this.logger) {
             this.logger.log(`incomming event => ${eventName}`);
           }
-          const result = controller[name](data, event.sender, event);
+          const result = controller[name](event, data);
 
           if (result instanceof Promise) {
             result.catch((err: any) => {
