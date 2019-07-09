@@ -1,8 +1,14 @@
 {
-  "name": "electron-decorators",
-  "version": "0.0.0",
+  "name": "electron-api-ipc",
+  "version": "0.0.0-development",
   "description": "",
-  "keywords": [],
+  "keywords": [
+    "electron",
+    "ipc",
+    "decorators",
+    "inversify",
+    "ioc"
+  ],
   "main": "index.js",
   "typings": "types/index.d.ts",
   "files": [
@@ -11,24 +17,24 @@
   "author": "Charles Jacquin <charles.jacquin@autistici.org>",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/charjac/electron-api-ipc.git"
   },
   "license": "MIT",
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=8.0.0"
   },
   "scripts": {
     "lint": "tslint --project tsconfig.prod.json -t codeFrame 'src/**/*.ts'",
     "prebuild": "rimraf dist",
     "build": "tsc -p tsconfig.prod.json && typedoc src",
     "test": "mocha",
-    "test:ci": "nyc mocha && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
-    "test:tdd": "mocha --watch",
+    "test:ci": "nyc mocha",
+    "test:tdd": "mocha --watch --reporter dot",
+    "report-coverage": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
     "start": "rollup -c rollup.config.ts -w",
     "deploy-docs": "ts-node tools/gh-pages-publish",
     "commit": "git-cz",
     "semantic-release": "semantic-release",
-    "semantic-release-prepare": "ts-node tools/semantic-release-prepare",
     "travis-deploy-once": "travis-deploy-once"
   },
   "lint-staged": {
@@ -57,6 +63,9 @@
     "include": [
       "src"
     ],
+    "exclude": [
+      "src/lib/bootstrap.ts"
+    ],
     "reporter": [
       "lcov"
     ]
@@ -76,6 +85,7 @@
     "@types/sinon": "^7.0.13",
     "chai": "^4.2.0",
     "commitizen": "^3.1.1",
+    "core-js": "2",
     "coveralls": "^3.0.4",
     "cz-conventional-changelog": "^2.1.0",
     "electron": "^5.0.6",

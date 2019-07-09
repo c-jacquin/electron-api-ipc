@@ -3,8 +3,8 @@ import { IpcMain, Event, ipcMain } from 'electron';
 import { Container as InversifyContainer } from 'inversify';
 import { Class } from 'type-fest';
 
-import { ControllerMeta, Logger, AppDependencies, AppOptions } from './types';
 import { EVENT_PREFIX } from './ipc-decorators';
+import { AppOptions, AppDependencies, Logger, ControllerMeta } from './bootstrap';
 
 export const $$logger = Symbol('$$logger');
 

@@ -1,3 +1,4 @@
+/* tslint:disable:no-empty */
 import { expect } from 'chai';
 import { spy } from 'sinon';
 
