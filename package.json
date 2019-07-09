@@ -9,10 +9,11 @@
     "inversify",
     "ioc"
   ],
-  "main": "index.js",
+  "main": "dist/index.js",
   "typings": "types/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "types"
   ],
   "author": "Charles Jacquin <charles.jacquin@autistici.org>",
   "repository": {
