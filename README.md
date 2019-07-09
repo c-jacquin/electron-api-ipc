@@ -2,7 +2,7 @@
 
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 [![Travis](https://img.shields.io/travis/charjac/electron-api-ipc.svg)](https://travis-ci.org/charjac/electron-api-ipc)
-[![Coveralls](https://img.shields.io/coveralls/charjac/electron-ipc-api.svg)](https://coveralls.io/github/charjac/electron-ipc-api)
+[![Coveralls](https://img.shields.io/coveralls/charjac/electron-api-ipc.svg)](https://coveralls.io/github/charjac/electron-api-ipc)
 [![dependencies Status](https://david-dm.org/charjac/electron-api-ipc/status.svg)](https://david-dm.org/charjac/electron-api-ipc)
 [![devDependencies Status](https://david-dm.org/charjac/electron-api-ipc/dev-status.svg)](https://david-dm.org/charjac/electron-api-ipc?type=dev)
 [![peerDependencies Status](https://david-dm.org/charjac/electron-api-ipc/peer-status.svg)](https://david-dm.org/charjac/electron-api-ipc?type=peer)
