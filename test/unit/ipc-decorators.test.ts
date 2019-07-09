@@ -28,4 +28,21 @@ describe('Ipc decorators', () => {
       { eventName: 'testbis', name: 'handleTestBis' }
     ]);
   });
+
+  it('should throw an error if no event', () => {
+    expect(() => {
+      @IpcController()
+      class FailTest {
+        @((IpcEvent as any)())
+        fail() {}
+      }
+    }).to.throw('You must specify an event name for method fail of class FailTest');
+  });
+
+  it('should throw an error if no event in a controller', () => {
+    expect(() => {
+      @IpcController()
+      class FailTest {}
+    }).to.throw('The controller FailTest has no event registered, you must register at least one');
+  });
 });
