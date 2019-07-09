@@ -17,8 +17,9 @@
     "typeRoots": ["node_modules/@types", "typings"]
   },
   "typedocOptions": {
-    "mode": "modules",
+    "mode": "file",
     "out": "docs",
-    "theme": "minimal"
+    "theme": "default",
+    "excludExternals": true
   }
 }

@@ -8,6 +8,9 @@ import { AppOptions, AppDependencies, Logger, ControllerMeta } from './bootstrap
 
 export const $$logger = Symbol('$$logger');
 
+/**
+ * Augmented version of an inversify container wich allow to listen and unlisten for ipc events
+ */
 export class Container extends InversifyContainer {
   private controllers: Class[];
   private ipc: IpcMain;
@@ -15,6 +18,11 @@ export class Container extends InversifyContainer {
   public onError?: (err: Error) => void;
   public isListening = false;
 
+  /**
+   * @constructor
+   * @param dependencies - the dependencies of your app, both services and controller will end up in an inversify container
+   * @param options - options to customize the behavior
+   */
   constructor(dependencies: AppDependencies, options: AppOptions = {}) {
     super({ skipBaseClassChecks: true });
     this.controllers = dependencies.controllers;
@@ -35,6 +43,9 @@ export class Container extends InversifyContainer {
     }
   }
 
+  /**
+   * start the app, make all the registered event to listen for ipc.
+   */
   listen() {
     this.controllers.forEach(Controller => {
       this.bind(Controller).to(Controller);
@@ -64,6 +75,9 @@ export class Container extends InversifyContainer {
     this.isListening = true;
   }
 
+  /**
+   * unlisten for all the registered events
+   */
   close() {
     this.controllers.forEach(Controller => {
       const meta: ControllerMeta[] = Reflect.getMetadata(EVENT_PREFIX, Controller);
