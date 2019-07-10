@@ -52,8 +52,10 @@ export class Container extends InversifyContainer {
       const meta: ControllerMeta[] = Reflect.getMetadata(EVENT_PREFIX, Controller);
       const controller = this.get(Controller);
 
-      meta.forEach(({ eventName, name }) => {
-        this.ipc.on(eventName, (event: Event, data: any) => {
+      meta.forEach(({ eventName, name, once }) => {
+        const addListener = once ? this.ipc.once : this.ipc.on;
+
+        addListener.bind(this.ipc)(eventName, (event: Event, data: any) => {
           if (this.logger) {
             this.logger.log(`incomming event => ${eventName}`);
           }

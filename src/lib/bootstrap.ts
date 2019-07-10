@@ -24,6 +24,7 @@ export interface AppOptions {
 export interface ControllerMeta {
   eventName: string;
   name: string;
+  once?: boolean;
 }
 
 export interface Logger {

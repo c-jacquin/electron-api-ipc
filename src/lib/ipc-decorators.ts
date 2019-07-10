@@ -1,6 +1,6 @@
 import { injectable } from 'inversify';
 import {} from 'type-fest';
-import { ClassDecorator, MethodDecorator } from './bootstrap';
+import { ClassDecorator, MethodDecorator, ControllerMeta } from './bootstrap';
 
 /**
  * the key of the metadata
@@ -47,6 +47,10 @@ export const IpcController: ClassDecorator = (prefix?: string) => {
   };
 };
 
+interface IpcEventOptions {
+  once: boolean;
+}
+
 /**
  *  Decorate a controller method in order to make it an ipc event handler
  *
@@ -55,7 +59,7 @@ export const IpcController: ClassDecorator = (prefix?: string) => {
  *
  * @param eventName - a string representing the event to be handled by the decorated method
  */
-export const IpcEvent: MethodDecorator = (eventName: string) => {
+export const IpcEvent: MethodDecorator = (eventName: string, options?: IpcEventOptions) => {
   /**
    * Define metadata for this method (it will be utilised by the bootstrap function)
    *
@@ -69,8 +73,13 @@ export const IpcEvent: MethodDecorator = (eventName: string) => {
       );
     }
     const meta = Reflect.getMetadata(EVENT_PREFIX, target) || [];
-    meta.push({ eventName, name });
+    const eventMeta: ControllerMeta = { eventName, name };
 
+    if (options && options.once) {
+      eventMeta.once = options.once;
+    }
+
+    meta.push(eventMeta);
     Reflect.defineMetadata(EVENT_PREFIX, meta, target);
   };
 };

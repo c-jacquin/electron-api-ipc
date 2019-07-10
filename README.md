@@ -47,6 +47,11 @@ class MyCtrl {
     console.log(data); // print hello world
     this.dummy.doSomething();
   }
+
+  @IpcEvent('once-event', { once: true })
+  handleOnce() {
+    console.log('you will see me only once :(');
+  }
 }
 
 const app = bootstrapIpcApi({
@@ -63,4 +68,7 @@ renderer process
 import { ipcRenderer } from 'electron';
 
 ipcRenderer.send('test-foo', 'hello world');
+
+ipcRenderer.send('once-event');
+ipcRenderer.send('once-event'); // nothing happen
 ```
