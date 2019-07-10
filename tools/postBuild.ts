@@ -1,33 +1,6 @@
 import { createReadStream, createWriteStream } from 'fs';
 import { join } from 'path';
 import { Transform } from 'stream';
-import tempy from 'tempy';
-
-const DEF_PATH = join(process.cwd(), 'dist/types/test/index.d.ts');
-
-class TypeTransformer extends Transform {
-  _transform(chunk: Buffer, encoding: string, callback: (err?: Error) => void) {
-    const lines = chunk.toString().split('\n');
-    const topLines = lines.slice(0, 3).join('\n');
-    const contentLines = lines.slice(3).map(line => `  ${line.replace('declare ', '')}`);
-    contentLines.pop();
-    this.push(`${topLines}
-declare module 'electron-api-ipc/test' {
-${contentLines.join('\n')}
-}
-`);
-    callback();
-  }
-}
-
-const tempFile = tempy.file();
-
-createReadStream(DEF_PATH)
-  .pipe(new TypeTransformer())
-  .pipe(createWriteStream(tempFile))
-  .on('close', () => {
-    createReadStream(tempFile).pipe(createWriteStream(DEF_PATH));
-  });
 
 const PKG_PATH = join(process.cwd(), 'package.json');
 const DIST_PKG_PATH = join(process.cwd(), 'dist/package.json');

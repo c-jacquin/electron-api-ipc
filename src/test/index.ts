@@ -1,4 +1,3 @@
-/// <reference path="../../typings/electron-ipc-mock.d.ts" />
 import ipcMock from 'electron-ipc-mock';
 
 import { AppDependencies, AppOptions } from '../lib/bootstrap';
