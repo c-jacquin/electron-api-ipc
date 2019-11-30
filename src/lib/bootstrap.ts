@@ -1,13 +1,15 @@
 import { IpcMain } from 'electron';
 import { Class } from 'type-fest';
+import { interfaces } from 'inversify';
 
 import { Container } from './container';
 
 export interface ServiceProvider {
   provide: symbol | Class | string;
-  useFactory?: () => any;
+  useFactory?: interfaces.FactoryCreator<any>;
   useClass?: Class;
   useValue?: any;
+  useProvider?: interfaces.ProviderCreator<any>;
 }
 
 export interface AppDependencies {

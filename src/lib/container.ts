@@ -35,10 +35,11 @@ export class Container extends InversifyContainer {
     }
 
     if (dependencies.services) {
-      dependencies.services.forEach(({ provide, useClass, useValue, useFactory }) => {
+      dependencies.services.forEach(({ provide, useClass, useValue, useFactory, useProvider }) => {
         if (useClass) this.bind(provide).to(useClass);
         else if (useValue) this.bind(provide).toConstantValue(useValue);
         else if (useFactory) this.bind(provide).toFactory(useFactory);
+        else if (useProvider) this.bind(provide).toProvider(useProvider);
       });
     }
   }
