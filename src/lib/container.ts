@@ -13,7 +13,6 @@ export const $$logger = Symbol('$$logger');
  */
 export class Container extends InversifyContainer {
   private controllers: Class[];
-  private services: ServiceProvider[];
   private ipc: IpcMain;
   private logger?: Logger;
   public onError?: (err: Error) => void;
@@ -27,17 +26,29 @@ export class Container extends InversifyContainer {
   constructor(dependencies: AppDependencies, options: AppOptions = {}) {
     super({ skipBaseClassChecks: true });
     this.controllers = dependencies.controllers || [];
-    this.services = dependencies.services || [];
     this.ipc = options.ipcInstance || ipcMain;
 
     this.setOptions(options);
+
+    if (dependencies.services) {
+      this.bindServices(dependencies.services);
+    }
+  }
+
+  private bindServices(services: ServiceProvider[]) {
+    services.forEach(({ provide, useClass, useValue, useFactory, useProvider }) => {
+      if (useClass) this.bind(provide).to(useClass);
+      else if (useValue) this.bind(provide).toConstantValue(useValue);
+      else if (useFactory) this.bind(provide).toFactory(useFactory);
+      else if (useProvider) this.bind(provide).toProvider(useProvider);
+    });
   }
 
   registerService(service: ServiceProvider) {
     if (this.isListening) {
       throw new Error('unable to register new service while listening');
     }
-    this.services.push(service);
+    this.bindServices([service]);
   }
 
   registerController(controller: Class) {
@@ -63,13 +74,6 @@ export class Container extends InversifyContainer {
    * start the app, make all the registered event to listen for ipc.
    */
   listen() {
-    this.services.forEach(({ provide, useClass, useValue, useFactory, useProvider }) => {
-      if (useClass) this.bind(provide).to(useClass);
-      else if (useValue) this.bind(provide).toConstantValue(useValue);
-      else if (useFactory) this.bind(provide).toFactory(useFactory);
-      else if (useProvider) this.bind(provide).toProvider(useProvider);
-    });
-
     this.controllers.forEach(Controller => {
       this.bind(Controller).to(Controller);
       const meta: ControllerMeta[] = Reflect.getMetadata(EVENT_PREFIX, Controller);
