@@ -28,21 +28,33 @@ export class Container extends InversifyContainer {
     super({ skipBaseClassChecks: true });
     this.controllers = dependencies.controllers || [];
     this.services = dependencies.services || [];
-    this.logger = options.logger;
     this.ipc = options.ipcInstance || ipcMain;
+  }
+
+  registerService(service: ServiceProvider) {
+    if (this.isListening) {
+      throw new Error('unable to register new service while listening');
+    }
+    this.services.push(service);
+  }
+
+  registerController(controller: Class) {
+    if (this.isListening) {
+      throw new Error('unable to register new controller while listening');
+    }
+    this.controllers.push(controller);
+  }
+
+  setOptions(options: AppOptions) {
+    if (this.isListening) {
+      throw new Error('unable to set options while listening');
+    }
+    this.logger = options.logger;
     this.onError = options.onError;
 
     if (options.logger) {
       this.bind($$logger).toConstantValue(options.logger);
     }
-  }
-
-  registerService(service: ServiceProvider) {
-    this.services.push(service);
-  }
-
-  registerController(controller: Class) {
-    this.controllers.push(controller);
   }
 
   /**
