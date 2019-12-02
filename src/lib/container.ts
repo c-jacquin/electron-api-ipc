@@ -29,6 +29,8 @@ export class Container extends InversifyContainer {
     this.controllers = dependencies.controllers || [];
     this.services = dependencies.services || [];
     this.ipc = options.ipcInstance || ipcMain;
+
+    this.setOptions(options);
   }
 
   registerService(service: ServiceProvider) {
