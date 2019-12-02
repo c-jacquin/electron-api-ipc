@@ -4,7 +4,7 @@ import { Container as InversifyContainer } from 'inversify';
 import { Class } from 'type-fest';
 
 import { EVENT_PREFIX } from './ipc-decorators';
-import { AppOptions, AppDependencies, Logger, ControllerMeta } from './bootstrap';
+import { AppOptions, AppDependencies, Logger, ControllerMeta, ServiceProvider } from './bootstrap';
 
 export const $$logger = Symbol('$$logger');
 
@@ -13,6 +13,7 @@ export const $$logger = Symbol('$$logger');
  */
 export class Container extends InversifyContainer {
   private controllers: Class[];
+  private services: ServiceProvider[];
   private ipc: IpcMain;
   private logger?: Logger;
   public onError?: (err: Error) => void;
@@ -25,7 +26,8 @@ export class Container extends InversifyContainer {
    */
   constructor(dependencies: AppDependencies, options: AppOptions = {}) {
     super({ skipBaseClassChecks: true });
-    this.controllers = dependencies.controllers;
+    this.controllers = dependencies.controllers || [];
+    this.services = dependencies.services || [];
     this.logger = options.logger;
     this.ipc = options.ipcInstance || ipcMain;
     this.onError = options.onError;
@@ -33,21 +35,27 @@ export class Container extends InversifyContainer {
     if (options.logger) {
       this.bind($$logger).toConstantValue(options.logger);
     }
+  }
 
-    if (dependencies.services) {
-      dependencies.services.forEach(({ provide, useClass, useValue, useFactory, useProvider }) => {
-        if (useClass) this.bind(provide).to(useClass);
-        else if (useValue) this.bind(provide).toConstantValue(useValue);
-        else if (useFactory) this.bind(provide).toFactory(useFactory);
-        else if (useProvider) this.bind(provide).toProvider(useProvider);
-      });
-    }
+  registerService(service: ServiceProvider) {
+    this.services.push(service);
+  }
+
+  registerController(controller: Class) {
+    this.controllers.push(controller);
   }
 
   /**
    * start the app, make all the registered event to listen for ipc.
    */
   listen() {
+    this.services.forEach(({ provide, useClass, useValue, useFactory, useProvider }) => {
+      if (useClass) this.bind(provide).to(useClass);
+      else if (useValue) this.bind(provide).toConstantValue(useValue);
+      else if (useFactory) this.bind(provide).toFactory(useFactory);
+      else if (useProvider) this.bind(provide).toProvider(useProvider);
+    });
+
     this.controllers.forEach(Controller => {
       this.bind(Controller).to(Controller);
       const meta: ControllerMeta[] = Reflect.getMetadata(EVENT_PREFIX, Controller);

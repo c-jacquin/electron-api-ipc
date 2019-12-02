@@ -13,7 +13,7 @@ export interface ServiceProvider {
 }
 
 export interface AppDependencies {
-  controllers: Class[];
+  controllers?: Class[];
   services?: ServiceProvider[];
 }
 
